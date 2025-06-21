@@ -104,14 +104,15 @@ const ClientSignUpScreen: React.FC = () => {
             disabled={!isContinueEnabled}
             onPress={async () => {
               try {
-                const response = await fetch('http://10.0.2.2:3000/api/signup', {
+                const response = await fetch('http://10.0.2.2:5000/api/signup', {
                   method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
                   body: JSON.stringify({
-                    email,
                     username,
                     birthDate,
-                    role: 'client',
+                    email,
                   }),
                 });
 
