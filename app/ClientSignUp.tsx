@@ -56,25 +56,26 @@ const ClientSignUpScreen: React.FC = () => {
             onChangeText={setUsername}
           />
 
-          {/* Birth Date Picker */}
-          {Platform.OS === 'web' ? (
-  <TextInput
-    style={styles.input}
-    placeholder="mm/dd/yyyy"
-    value={birthDate}
-    onChangeText={setBirthDate}
-  />
-) : (
-  showDatePicker && (
-    <DateTimePicker
-      value={selectedDate || new Date()}
-      mode="date"
-      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-      maximumDate={new Date()}
-      onChange={handleDateChange}
-    />
-  )
+          <TouchableOpacity
+  onPress={() => setShowDatePicker(true)}
+  style={[styles.input, styles.dateInput]}
+>
+  <Text style={{ color: birthDate ? '#000' : '#999' }}>
+    {birthDate || 'mm/dd/yyyy'}
+  </Text>
+  <Text style={styles.calendarIcon}>📅</Text>
+</TouchableOpacity>
+
+{showDatePicker && (
+  <DateTimePicker
+    value={selectedDate || new Date()}
+    mode="date"
+    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+    maximumDate={new Date()}
+    onChange={handleDateChange}
+/>
 )}
+
 
 
           <Text style={styles.hint}>This will not be shown publicly.</Text>
@@ -103,7 +104,7 @@ const ClientSignUpScreen: React.FC = () => {
             disabled={!isContinueEnabled}
             onPress={async () => {
               try {
-                const response = await fetch('http://192.168.1.1:5000/api/signup', {
+                const response = await fetch('http://10.0.2.2:3000/api/signup', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
@@ -193,13 +194,36 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 16,
   },
-  dateInput: {
+   dateInput: {
+    backgroundColor: '#F1F1F1',
+    padding: 14,
+    borderRadius: 12,
+    fontSize: 16,
+    marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+
   calendarIcon: {
     fontSize: 18,
+    marginLeft: 8,
+  },
+
+  calendarOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    padding: 16,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
   },
   hint: {
     color: '#888',

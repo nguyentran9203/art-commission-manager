@@ -26,14 +26,14 @@ const HomeScreen: React.FC = () => {
     <ScrollView style={styles.container}>
       {/* Top Buttons */}
       {!role && (
-        <View style={styles.topButtons}>
-          <TouchableOpacity style={styles.artistBtn} onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.btnText}>I'm an artist+</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.signUpBtn} onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.btnText}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
+       <View style={styles.topButtons}>
+  <TouchableOpacity style={styles.artistBtn} onPress={() => console.log("I'm an artist+")}>
+    <Text style={styles.btnText}>I'm an artist+</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.signUpBtn} onPress={() => navigation.navigate('SignUp')}>
+    <Text style={styles.btnText}>Sign Up</Text>
+  </TouchableOpacity>
+</View>
       )}
 
       {role === 'artist' && (
@@ -124,11 +124,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   topButtons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 16,
-    gap: 8,
-  },
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  paddingHorizontal: 16,
+  paddingTop: 64, // push down from top status bar
+  zIndex: 10, // bring to front if needed
+  position: 'relative', // or absolute if placed at top
+}
+,
   artistBtn: {
     backgroundColor: '#F0F0F0',
     paddingHorizontal: 12,

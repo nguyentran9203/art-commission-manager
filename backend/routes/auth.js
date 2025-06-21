@@ -4,11 +4,13 @@ const User = require('../models/User');
 
 // POST /signup
 router.post('/signup', async (req, res) => {
-  const { email, role } = req.body;
+  const { email, username, birthDate, role } = req.body;
 
-  if (!email || !role) {
-    return res.status(400).json({ message: 'Email and role are required.' });
-  }
+
+  if (!email || !username || !birthDate || !role) {
+  return res.status(400).json({ message: 'All fields are required.' });
+}
+
 
   try {
     const existingUser = await User.findOne({ email });
@@ -16,8 +18,8 @@ router.post('/signup', async (req, res) => {
     if (existingUser) {
       return res.status(409).json({ message: 'User already exists.' });
     }
+const newUser = new User({ email, username, birthDate, role });
 
-    const newUser = new User({ email, role });
     await newUser.save();
 
     res.status(201).json({ message: 'User created successfully.', user: newUser });
