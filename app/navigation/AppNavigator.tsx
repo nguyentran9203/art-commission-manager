@@ -1,23 +1,30 @@
+// app/navigation/AppNavigator.tsx
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from '../index'; // or wherever your HomeScreen is
+import SignUpScreen from '../SignUp'
+import ClientSignUpScreen from '../ClientSignUp';
 
-const Stack = createNativeStackNavigator();
+// ✅ Define the navigation types
+export type RootStackParamList = {
+  Home: { role?: 'artist' | 'client' };
+  SignUp: undefined;
+  ClientSignUp: undefined;
+};
 
-const MyStack = () => {
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+// ✅ Navigation container wrapped properly
+export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Welcome'}}
-        />
-       
+      <Stack.Navigator initialRouteName="SignUp" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="ClientSignUp" component={ClientSignUpScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
-
-export default MyStack;
-import HomeScreen from '..';
+}
